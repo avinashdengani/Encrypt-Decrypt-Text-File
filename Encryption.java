@@ -1,3 +1,4 @@
+import java.awt.BorderLayout;
 import java.awt.Panel;
 
 public class Encryption {
@@ -23,6 +24,30 @@ public class Encryption {
         this.dropdown = new EDDropdown();
 
         this.submitBtn = new EDButton("Submit", this);
+
+        Panel openFilePanel = new Panel();
+        Panel dropDownPanel = new Panel();
+        Panel saveFilePanel = new Panel();
+        Panel submitPanel = new Panel();
+        Panel centerPanel = new Panel(new BorderLayout());
+
+        openFilePanel.add(this.openFileLabel);
+        openFilePanel.add(this.openBtn);
+
+        dropDownPanel.add(this.dropdown);
+
+        saveFilePanel.add(this.saveFileLabel);
+        saveFilePanel.add(this.saveBtn);
+
+        centerPanel.add(dropDownPanel, BorderLayout.NORTH);
+        centerPanel.add(saveFilePanel, BorderLayout.SOUTH);
+
+        submitPanel.add(submitBtn);
+
+        this.panel.add(openFilePanel, BorderLayout.NORTH);
+        this.panel.add(centerPanel, BorderLayout.CENTER);
+        this.panel.add(submitPanel, BorderLayout.SOUTH);
+
     }
 
 }
