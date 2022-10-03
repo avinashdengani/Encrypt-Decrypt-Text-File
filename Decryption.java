@@ -47,7 +47,26 @@ public class Decryption {
         this.panel.add(openFilePanel, BorderLayout.NORTH);
         this.panel.add(centerPanel, BorderLayout.CENTER);
         this.panel.add(submitPanel, BorderLayout.SOUTH);
+    }
 
+    //GETTERS
+    public EDButton getOpenBtn() {
+        return this.openBtn;
+    }
+    public EDButton getSaveBtn() {
+        return this.saveBtn;
+    }
+    public EDButton getSubmitButton() {
+        return this.submitBtn;
+    }
+    public EDLabel getOpenFileLabel() {
+        return this.openFileLabel;
+    }
+    public EDLabel getSaveFileLabel() {
+        return this.saveFileLabel;
+    }
+    public EDDropdown getEdDropdown() {
+        return this.dropdown;
     }
 
 }
