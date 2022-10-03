@@ -7,6 +7,8 @@ public class Encryption {
     private EDLabel saveFileLabel;
     private EDButton openBtn;
     private EDButton saveBtn;
+    private EDButton submitBtn;
+    private EDDropdown dropdown;
 
     Encryption(EDFrame frame, Panel panel) {
         this.frame = frame;
@@ -17,6 +19,10 @@ public class Encryption {
 
         this.openBtn = new EDButton("Choose", this);
         this.saveBtn = new EDButton("Save", this);
+
+        this.dropdown = new EDDropdown();
+
+        this.submitBtn = new EDButton("Submit", this);
     }
 
 }
