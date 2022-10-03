@@ -10,6 +10,11 @@ public class Decryption {
     private EDButton saveBtn;
     private EDButton submitBtn;
     private EDDropdown dropdown;
+    private String openFileDirectory;
+    private String openFileName;
+    private String saveFileDirectory;
+    private String saveFileName;
+    private String fileText;
 
     Decryption(EDFrame frame, Panel panel) {
         this.frame = frame;
@@ -68,5 +73,38 @@ public class Decryption {
     public EDDropdown getEdDropdown() {
         return this.dropdown;
     }
+    
+    public String getOpenFileDirectory() {
+        return this.openFileDirectory;
+    }
+    public void setOpenFileDirectory(String dir) {
+        this.openFileDirectory = dir;
+    }
 
+    public String getSaveFileDirectory() {
+        return this.saveFileDirectory;
+    }
+    public void setSaveFileDirectory(String dir) {
+        this.saveFileDirectory = dir;
+    }
+
+    public String getOpenFileName() {
+        return this.openFileName;
+    }
+    public void setOpenFileName(String name) {
+        this.openFileName = name;
+    }
+
+    public String getSaveFileName(String name) {
+        return this.saveFileName;
+    }
+    public void setSaveFileName(String name) {
+        this.saveFileName = name;
+    }
+    public String getFileText() {
+        return this.fileText;
+    }
+    public void setFileText(String text) {
+        this.fileText = text;
+    }
 }
