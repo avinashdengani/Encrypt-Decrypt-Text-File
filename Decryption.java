@@ -176,6 +176,15 @@ public class Decryption {
         }
 
         return data.toString();
+    }
 
+    public void resetFields() {
+        this.openFileLabel.setText("Select File");
+        this.saveFileLabel.setText("Save File");
+        this.openFileDirectory = null;
+        this.saveFileDirectory = null;
+        this.openFileName = null;
+        this.saveFileName = null;
+        this.fileText = null;
     }
 }
