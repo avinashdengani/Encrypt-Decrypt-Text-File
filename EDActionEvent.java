@@ -1,4 +1,5 @@
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.awt.event.ActionEvent;
 import java.awt.FileDialog;
 
@@ -9,8 +10,6 @@ public class EDActionEvent implements ActionListener{
 
     FileDialog fileDialog;
     EDFrame frame;
-    String fileDirectory;
-    String fileName;
     boolean isEncryption;
     String fileText;
 
@@ -37,6 +36,8 @@ public class EDActionEvent implements ActionListener{
                 this.handleOpenFile("Choose File to Encrypt");
             } else if(ae.getSource() == this.encryption.getSaveBtn()) {
                 this.handleSaveFile("Save Encrypted File");
+            } else if(ae.getSource() == this.encryption.getSubmitButton()) {
+                this.handleSubmit();
             }
 
         } else {
@@ -44,7 +45,9 @@ public class EDActionEvent implements ActionListener{
                 this.handleOpenFile("Choose File to Decrypt");
             } else if(ae.getSource() == this.decryption.getSaveBtn()) {
                 this.handleSaveFile("Save Decrppt File");
-            } 
+            }  else if(ae.getSource() == this.decryption.getSubmitButton()) {
+                this.handleSubmit();
+            }
         }
     }
 
@@ -53,15 +56,19 @@ public class EDActionEvent implements ActionListener{
         this.fileDialog.setVisible(true);
 
         if(this.fileDialog.getFile() != null) {
+            String fileText = EDFileReader.getTextFromFile(new File(this.fileDialog.getDirectory(), this.fileDialog.getFile()));
 
             if(isEncryption) {
-                this.encryption.getOpenFileLabel().setText(fileName);
+                this.encryption.getOpenFileLabel().setText(this.fileDialog.getFile());
                 this.encryption.setOpenFileDirectory(this.fileDialog.getDirectory());
                 this.encryption.setOpenFileName(this.fileDialog.getFile());
+            
+                this.encryption.setFileText(fileText);
             } else {
-                this.decryption.getOpenFileLabel().setText(fileName);
+                this.decryption.getOpenFileLabel().setText(this.fileDialog.getFile());
                 this.decryption.setOpenFileDirectory(this.fileDialog.getDirectory());
                 this.decryption.setOpenFileName(this.fileDialog.getFile());
+                this.decryption.setFileText(fileText);
             }
         }
 
@@ -74,15 +81,41 @@ public class EDActionEvent implements ActionListener{
         if(this.fileDialog.getFile() != null) {
 
             if(isEncryption) {
-                this.encryption.getSaveFileLabel().setText(fileName);
+                this.encryption.getSaveFileLabel().setText(this.fileDialog.getFile());
                 this.encryption.setSaveFileDirectory(this.fileDialog.getDirectory());
                 this.encryption.setSaveFileName(this.fileDialog.getFile());
             } else {
-                this.decryption.getSaveFileLabel().setText(fileName);
+                this.decryption.getSaveFileLabel().setText(this.fileDialog.getFile());
                 this.decryption.setSaveFileDirectory(this.fileDialog.getDirectory());
                 this.decryption.setSaveFileName(this.fileDialog.getFile());
             }
         }
 
+    }
+    private void handleSubmit() {
+
+        if(isEncryption) {
+            String encryptedText = this.encryption.getEncrpytedText();
+            
+            File newFile = new File(this.encryption.getSaveFileDirectory(), this.encryption.getSaveFileName());
+            
+            try {
+                newFile.createNewFile();
+                EDFileWriter.setTextInFile(newFile, encryptedText);
+            } catch(Exception e) {
+                System.out.println("Some Error Occurred");
+            }
+
+        } else {
+            String decryptedText =  this.decryption.getDecrpytedText();
+            File newFile = new File(this.decryption.getSaveFileDirectory(), this.decryption.getSaveFileName(decryptedText));
+            
+            try {
+                newFile.createNewFile();
+                EDFileWriter.setTextInFile(newFile, decryptedText);
+            } catch(Exception e) {
+                System.out.println("Some Error Occurred");
+            }
+        }
     }
 }

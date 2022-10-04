@@ -16,6 +16,8 @@ public class Encryption {
     private String saveFileName;
     private String fileText;
 
+    final int KEY = 8;
+
     Encryption(EDFrame frame, Panel panel) {
         this.frame = frame;
         this.panel = panel;
@@ -96,7 +98,7 @@ public class Encryption {
         this.openFileName = name;
     }
 
-    public String getSaveFileName(String name) {
+    public String getSaveFileName() {
         return this.saveFileName;
     }
     public void setSaveFileName(String name) {
@@ -107,5 +109,55 @@ public class Encryption {
     }
     public void setFileText(String text) {
         this.fileText = text;
+    }
+
+    public String getEncrpytedText() {
+        if(this.dropdown.getSelectedIndex() == this.dropdown.CEASER_CIPHER_APLHABETIC_INDEX) {
+            return getCaeserCipherAlphabeticEncrytedData();
+        }
+        return getCaeserCipherEncrytedData();
+    }
+    
+    private String getCaeserCipherAlphabeticEncrytedData() {
+        StringBuffer data = new StringBuffer(); 
+         
+        for(int i=0; i<fileText.length(); i++) {
+            if( (isAlphabetic(fileText.charAt(i)))  || ( isSpace(fileText.charAt(i))) || (isEnter(fileText.charAt(i))) ) {
+
+                char currentChar = Character.toLowerCase(fileText.charAt(i));
+                int key = this.KEY % 26;
+                int charAscii = (int) currentChar;
+            
+                if(isAlphabetic(currentChar)) {
+                    int newCharAscii = charAscii + key;
+                
+                    if (newCharAscii > 122) {
+                        newCharAscii -= 26;
+                    }
+                    data.append((char) newCharAscii);
+                } else {
+                    data.append(currentChar);
+                }
+            }
+        }
+        return data.toString();
+    }
+
+    private String getCaeserCipherEncrytedData() {
+        return "";
+    }
+
+    private boolean isAlphabetic(char ch) {
+        if( (ch >= 'A' && ch <= 'Z') ||  (ch >= 'a' && ch <= 'z')) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean isSpace(char ch) {
+        return (ch == ' ');
+    }
+    private boolean isEnter(char ch) {
+        return (ch == '\n');
     }
 }

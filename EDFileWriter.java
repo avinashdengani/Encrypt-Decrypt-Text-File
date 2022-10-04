@@ -2,7 +2,7 @@ import java.io.IOException;
 import java.io.FileWriter;
 import java.io.File;
 
-public class NFileWriter {
+public class EDFileWriter {
     public static boolean setTextInFile(File file, String data) {
         try {
             FileWriter fileWriter = new FileWriter(file, false);
