@@ -122,13 +122,13 @@ public class Encryption {
         StringBuffer data = new StringBuffer(); 
          
         for(int i=0; i<fileText.length(); i++) {
-            if( (isAlphabetic(fileText.charAt(i)))  || ( isSpace(fileText.charAt(i))) || (isEnter(fileText.charAt(i))) ) {
+            if( (HelperMethods.isAlphabetic(fileText.charAt(i)))  || ( HelperMethods.isSpace(fileText.charAt(i))) || (HelperMethods.isEnter(fileText.charAt(i))) ) {
 
                 char currentChar = Character.toLowerCase(fileText.charAt(i));
                 int key = this.KEY % 26;
                 int charAscii = (int) currentChar;
             
-                if(isAlphabetic(currentChar)) {
+                if(HelperMethods.isLowerCase(currentChar)) {
                     int newCharAscii = charAscii + key;
                 
                     if (newCharAscii > 122) {
@@ -144,20 +144,36 @@ public class Encryption {
     }
 
     private String getCaeserCipherEncrytedData() {
-        return "";
-    }
-
-    private boolean isAlphabetic(char ch) {
-        if( (ch >= 'A' && ch <= 'Z') ||  (ch >= 'a' && ch <= 'z')) {
-            return true;
+        StringBuffer data = new StringBuffer("");
+        for (int i = 0; i < this.fileText.length(); ++i) {
+            char currentChar = this.fileText.charAt(i);
+            if (HelperMethods.isAlphabetic(currentChar)) {
+                int key = this.KEY % 26;
+                int charAscii = (int) currentChar;
+                int newCharAscii = charAscii + key;
+                if (HelperMethods.isUpperCase(currentChar)) {
+                    if (newCharAscii > 90) {
+                        newCharAscii -= 26;
+                    }
+                }
+                if (HelperMethods.isLowerCase(currentChar)) {
+                    if (newCharAscii > 122) {
+                        newCharAscii -= 26;
+                    }
+                }
+                data.append((char) newCharAscii);
+            } else if (HelperMethods.isNumeric(currentChar)) {
+                int key = this.KEY % 10;
+                int charAscii = (int) currentChar;
+                int newCharAscii = charAscii + key;
+                if (newCharAscii > 57) {
+                    newCharAscii -= 10;
+                }
+                data.append((char) newCharAscii);
+            } else {
+                data.append(currentChar);
+            }
         }
-        return false;
-    }
-
-    private boolean isSpace(char ch) {
-        return (ch == ' ');
-    }
-    private boolean isEnter(char ch) {
-        return (ch == '\n');
+        return data.toString();
     }
 }
