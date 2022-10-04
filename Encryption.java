@@ -111,7 +111,7 @@ public class Encryption {
         this.fileText = text;
     }
 
-    public String getEncrpytedText() {
+    public String getEncryptedText() {
         if(this.dropdown.getSelectedIndex() == this.dropdown.CEASER_CIPHER_APLHABETIC_INDEX) {
             return getCaeserCipherAlphabeticEncrytedData();
         }

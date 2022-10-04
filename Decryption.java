@@ -97,7 +97,7 @@ public class Decryption {
         this.openFileName = name;
     }
 
-    public String getSaveFileName(String name) {
+    public String getSaveFileName() {
         return this.saveFileName;
     }
     public void setSaveFileName(String name) {
@@ -110,7 +110,7 @@ public class Decryption {
         this.fileText = text;
     }
     
-    public String getDecrpytedText() {
+    public String getDecryptedText() {
         if(this.dropdown.getSelectedIndex() == this.dropdown.CEASER_CIPHER_APLHABETIC_INDEX) {
             return this.getCaeserCipherAlphabeticDecryptedData();
         }

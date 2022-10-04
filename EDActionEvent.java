@@ -4,14 +4,15 @@ import java.awt.event.ActionEvent;
 import java.awt.FileDialog;
 
 public class EDActionEvent implements ActionListener{
-    
-    Encryption encryption;
-    Decryption decryption;
-
-    FileDialog fileDialog;
     EDFrame frame;
-    boolean isEncryption;
-    String fileText;
+    
+    private Encryption encryption;
+    private Decryption decryption;
+
+    private EDDialog dialog;
+    private FileDialog fileDialog;
+    private boolean isEncryption;
+
 
     EDActionEvent(Encryption encryption, Decryption decryption) {
         this.encryption = encryption;
@@ -93,29 +94,65 @@ public class EDActionEvent implements ActionListener{
 
     }
     private void handleSubmit() {
+        if(isEncryption) {
+            if (this.encryption.getOpenFileName() == null
+                    || this.encryption.getOpenFileDirectory() == null
+                    || this.encryption.getSaveFileName() == null
+                    || this.encryption.getSaveFileDirectory() == null) {
+                this.showErrorDialog();
+            } else {
+                submitEncryption();
+            }
+            
+        } else {
+
+            if (this.decryption.getOpenFileName() == null
+                    || this.decryption.getOpenFileDirectory() == null
+                    || this.decryption.getSaveFileName() == null
+                    || this.decryption.getSaveFileDirectory() == null) {
+                this.showErrorDialog();
+            } else {
+                submitDecryption();
+            }
+        }
+    }
+
+    private void showErrorDialog() {
+        dialog = new EDDialog(this.frame, "Error", true);
 
         if(isEncryption) {
-            String encryptedText = this.encryption.getEncrpytedText();
-            
-            File newFile = new File(this.encryption.getSaveFileDirectory(), this.encryption.getSaveFileName());
-            
-            try {
-                newFile.createNewFile();
-                EDFileWriter.setTextInFile(newFile, encryptedText);
-            } catch(Exception e) {
-                System.out.println("Some Error Occurred");
-            }
-
+            dialog.add(new EDLabel("Please Choose All The Files For Encryption"));
         } else {
-            String decryptedText =  this.decryption.getDecrpytedText();
-            File newFile = new File(this.decryption.getSaveFileDirectory(), this.decryption.getSaveFileName(decryptedText));
+            dialog.add(new EDLabel("Please Choose All The Files For Decryption"));
+        }
+
+        dialog.setSize(700, 200);
+        dialog.setVisible(true);
+    }
+    private void submitEncryption() {
+        String encryptedText = this.encryption.getEncryptedText();
+        File newFile = new File(this.encryption.getSaveFileDirectory(), this.encryption.getSaveFileName());
+        
+        saveFileAfterSubmitting(newFile, encryptedText);
+    }
+
+    private void submitDecryption() {
+        String decryptedText = this.decryption.getDecryptedText();
+        File newFile = new File(this.decryption.getSaveFileDirectory(), this.decryption.getSaveFileName());
+    
+        saveFileAfterSubmitting(newFile, decryptedText);
+    }
+
+    private void saveFileAfterSubmitting(File file, String text) {
+        try {
+            file.createNewFile();
+            EDFileWriter.setTextInFile(file, text);
+        } catch(Exception e) {
+            dialog = new EDDialog(this.frame, "Error", true);
             
-            try {
-                newFile.createNewFile();
-                EDFileWriter.setTextInFile(newFile, decryptedText);
-            } catch(Exception e) {
-                System.out.println("Some Error Occurred");
-            }
+            dialog.add(new EDLabel("Some Error Occured! Try Againn"));
+            
+            dialog.setVisible(true);
         }
     }
 }
