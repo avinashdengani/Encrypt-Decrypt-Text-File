@@ -10,7 +10,8 @@ public class EDFileReader {
 			BufferedReader br = new BufferedReader(new FileReader(file));	
 			String tempData = "";
 			while ((tempData = br.readLine()) != null) {				
-				completeData.append(tempData.trim());
+				completeData.append(tempData);
+				completeData.append('\n');
 			}   
 		}catch(Exception e){
             System.out.println("Some Error Occured ");
